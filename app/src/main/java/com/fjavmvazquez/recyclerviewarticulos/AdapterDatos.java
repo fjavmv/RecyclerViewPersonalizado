@@ -16,9 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 
 public class AdapterDatos extends RecyclerView.Adapter<AdapterDatos.ViewHolderDatos> {
-
     ArrayList<Articulo> articulos;
-
     public AdapterDatos(ArrayList<Articulo> articulos){
         this.articulos = articulos;
     }
@@ -35,7 +33,6 @@ public class AdapterDatos extends RecyclerView.Adapter<AdapterDatos.ViewHolderDa
         //Establece la comunicación entre el adaptador y ViewHolderDatos
         //holder.asignarDatos(articulos.get(position));
         holder.asignarDatos(articulos.get(position));
-
     }
 
     @Override
@@ -45,36 +42,55 @@ public class AdapterDatos extends RecyclerView.Adapter<AdapterDatos.ViewHolderDa
     }
 
     public class ViewHolderDatos extends RecyclerView.ViewHolder {
-        TextView data;
+        TextView mTextViewTitulo;
         TextView mTextViewDescripcion;
         TextView mTextViewFecha;
-        ImageView mImageView;
+        ImageView mImageViewFondo;
+        ImageView mImageViewFavorito;
+        ImageView mImageViewCompartir;
         CardView mCardViewListener;
+
         public ViewHolderDatos(@NonNull View itemView) {
             super(itemView);
-            data = itemView.findViewById(R.id.txtTitulo);
-            mImageView = itemView.findViewById(R.id.imgvFondo);
-            mTextViewDescripcion = itemView.findViewById(R.id.txtContenido);
-            mTextViewFecha = itemView.findViewById(R.id.txtFecha);
-            mCardViewListener = itemView.findViewById(R.id.cardViewListener);
-
+            inicializaComponentes(itemView);
             mCardViewListener.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Toast.makeText(view.getContext(),data.getText(),Toast.LENGTH_SHORT).show();
+                    Toast.makeText(view.getContext(),mTextViewTitulo.getText(),Toast.LENGTH_SHORT).show();
                 }
             });
 
+            mImageViewCompartir.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Toast.makeText(view.getContext(),"Compartir",Toast.LENGTH_SHORT).show();
+                }
+            });
 
+            mImageViewFavorito.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Toast.makeText(view.getContext(),"Favoritos",Toast.LENGTH_SHORT).show();
+                }
+            });
 
+        }
+
+        public void inicializaComponentes(View itemView){
+            mTextViewTitulo = itemView.findViewById(R.id.txtTitulo);
+            mImageViewFondo = itemView.findViewById(R.id.imgvFondo);
+            mImageViewFavorito = itemView.findViewById(R.id.imgvFavorito);
+            mImageViewCompartir = itemView.findViewById(R.id.imgCompartir);
+            mTextViewDescripcion = itemView.findViewById(R.id.txtContenido);
+            mTextViewFecha = itemView.findViewById(R.id.txtFecha);
+            mCardViewListener = itemView.findViewById(R.id.cardViewListener);
         }
 
         public void asignarDatos(Articulo articulo) {
-            mImageView.setImageResource(articulo.getIdFoto());
-           data.setText(articulo.getTitulo());
-           mTextViewDescripcion.setText(articulo.getDescripcion());
-           mTextViewFecha.setText(articulo.getFecha());
+            mImageViewFondo.setImageResource(articulo.getIdFoto());
+            mTextViewTitulo.setText(articulo.getTitulo());
+            mTextViewDescripcion.setText(articulo.getDescripcion());
+            mTextViewFecha.setText(articulo.getFecha());
         }
-
     }
 }
